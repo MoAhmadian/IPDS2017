@@ -1,0 +1,26 @@
+\subsection{Related work}
+\label{sec:relatedWork}
+High scalability and distribution feature are the most important requirements for processing large volume of data which is mostly created by human or connected devices. Cloud computing which is extensively used for data processing, meets both requirements. Although easy launch of instances through web-based console is alluring option, cloud computing brings in series of new challenges as well as security risks, Shared access to the physical resources, availability and consistent performance of applications. Some of the studies on cloud computing focus on {\it performance concern} caused by sharing physical infrastructure among multiple virtual machines.The performance and efficiency of data-driven application have been studied extensively in the literature \cite{hacigumus2002providing, curino2011relational, cooper2010benchmarking}. Techniques to improve workload balancing between clients and server and graph-based partitioning algorithm for improving the performance and obtaining almost linear elastic scale-out is introduced in \cite{curino2011relational}. Furthermore, a new benchmark framework has been established in \cite{cooper2010benchmarking} to compare performance of cloud services offering by various CSPs.
+
+To protect sensitive data from untrusted CSP, most researches focused on {\it Homomorphic Encryption} that allows computations to be carried out over encrypted data \cite{gentry2009fully}. Other crypto-system that relaxed on security notion is Order-Preserving Encryption (OPE) also introduced in \cite{boldyreva2009order} and implemented in \cite{ahmadian2014security,ahmadian2015security} for cloud platform. 
+
+The reported research in this papers, leverages the performance of cluster of cloud instances collaborating in a total system. Ultimate goal is minimizing the latency of allocated instances in the public cloud without enforcing extra cost to the owners with holistic and efficient solution.
+
+\section{Future Work} \label{sec:futurework}
+
+In our experiments we did not determine if the latency observations we made would  translate into stable, low-latency networks for long term usage, i.e., if we identify a low-latency network, how likely is that network to remain low-latency? This question is especially important given the variability of network performance under various loads. In this work we did not address that question but instead hope to address it in future work. 
+
+\section{Conclusion} \label{sec:conclusion}
+In this paper we presented a novel method for optimizing networks in the cloud. We presented three different approaches: the naive approach, the greedy approach, and an approach driven by decision tree learning.
+
+In our study we found that for small networks with less than 7 nodes, the most optimal values can be found very quickly using the naive approach. Many networks, however, are not this small. For networks larger than 7, the greedy approach has the best performance while still being able to find networks that satisfy the constraints we examined in this paper. However, if finding the best possible networks is desirable (over runtime complexity) we found that our decision tree approach outperformed the greedy approach with only a minor
+increase in runtime performance.
+
+\section{Acknowledgments} \label{sec:acknowledgments}
+The work of Leavens and Singleton was supported in part by NSF grants CCF0916350 and CNS1228695. The work of Leavens was also supported by NSF grants CCF0916715 and CCF1017262.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "IPDPS2017"
+%%% End:

@@ -1,0 +1,45 @@
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
+\input{preDoc.tex}
+\begin{document}  
+\title{Optimizing Cloud-Based Networks for Lower Latency Using Learned Machine Characteristics}
+ 
+\author{\IEEEauthorblockN{John L. Singleton}
+  \IEEEauthorblockA{Department of Computer Science\\
+    University of Central Florida\\
+    Orlando, Florida 32816\\
+    Email: jls@cs.ucf.edu}
+\and
+\IEEEauthorblockN{Mohammad Ahmadian}
+\IEEEauthorblockA{Department of Computer Science\\
+    University of Central Florida\\
+    Orlando, Florida 32816\\
+    Email: ahmadian@cs.ucf.edu}
+\and
+\IEEEauthorblockN{Gary T. Leavens}
+\IEEEauthorblockA{Department of Computer Science\\
+    University of Central Florida\\
+    Orlando, Florida 32816\\
+    Email: leavens@cs.ucf.edu}
+}
+
+\maketitle
+
+\begin{abstract}
+Cloud Service Providers allocate machine instances non-contiguously to achieve higher utilization of their resources. This allocation method makes it difficult to control the network latency between instances. Latency is a key bottleneck for many computational workloads, especially those found in scientific and big data tasks. In this paper, we propose a novel method for extracting latency-optimal clusters within a non-contiguously allocated machine instance environment. We provide an evaluation of the effectiveness of our method in the context of optimizing a large computing cluster on Amazon Web Services. 
+\end{abstract}
+
+\begin{IEEEkeywords}
+Cloud computing, latency, Machine learning, Amazon Web Services, Data-Driven, Cluster
+\end{IEEEkeywords}
+
+\input{introduction.tex}
+\input{feasibility.tex}
+\input{experimentalDesign.tex}
+\input{results.tex}  
+\input{conclusion.tex} 
+
+\bibliographystyle{IEEEtran}
+\bibliography{report}
+
+% that's all folks
+\end{document}

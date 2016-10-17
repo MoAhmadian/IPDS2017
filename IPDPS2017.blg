@@ -1,0 +1,67 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: IPDPS2017.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: report.bib
+Repeated entry---line 75 of file report.bib
+ : @inproceedings{hacigumus2002providing
+ :                                      ,
+I'm skipping whatever remains of this entry
+You're missing a field name---line 111 of file report.bib
+ : 
+ : %volume = "53",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty journal in curino2011relational
+
+Done.
+You've used 9 entries,
+            4087 wiz_defined-function locations,
+            874 strings with 9134 characters,
+and the built_in function-call counts, 7157 in all, are:
+= -- 528
+> -- 203
+< -- 56
++ -- 110
+- -- 37
+* -- 347
+:= -- 1019
+add.period$ -- 21
+call.type$ -- 9
+change.case$ -- 9
+chr.to.int$ -- 144
+cite$ -- 10
+duplicate$ -- 509
+empty$ -- 592
+format.name$ -- 45
+if$ -- 1669
+int.to.chr$ -- 0
+int.to.str$ -- 9
+missing$ -- 93
+newline$ -- 50
+num.names$ -- 9
+pop$ -- 240
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 526
+stack$ -- 0
+substring$ -- 345
+swap$ -- 406
+text.length$ -- 8
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 9
+warning$ -- 1
+while$ -- 35
+width$ -- 10
+write$ -- 100
+(There were 2 error messages)

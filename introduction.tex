@@ -1,0 +1,62 @@
+\section{Introduction and Motivation} \label{sec:introduction}
+\begin{figure*}[ht] 
+  \centering
+  \includegraphics[scale=.4]{figures/big-plot-edited.pdf}
+  \caption{Latency by Clique found in our initial experiment. Note that as the Clique size increases, the likelyhood that the average latency will be higher grows. We see the lowest latencies in a clique of size 2. For reference, we show the theoretical latencies of InfiniBand and GigE networks.}
+  \label{fig:clique}
+\end{figure*}
+
+Latency is an important aspect of computer networks that can impact the performance of applications. Because of this, many large super computers such as Lawrencium (at UC Berkeley) and Franklin (at the Department of Energy) take into consideration the task minimizing latency in their interconnection networks.
+
+One of the most recent trends in computing and that of \textit{Cloud Computing}. One of the primary advantages of cloud computing approaches is that of low cost and flexibility. The configuration of cloud computing resources is typically performed via software API calls. While super computers are the dominant form of high performance computing in terms of performance, increasing access to Cloud Computing resources offers an opportunity---if a sufficiently powerful computing cluster can be created from the available computing resources. 
+
+In 2010, Jackson et al conducted a study examining the performance of Amazon EC2 relative to two traditional super computers. In their results the researchers observed that the performance of EC2 was as much as 2-20 times worse than the traditional super computers, and that one of the major contributing factors was the latency of the Amazon network \cite{jackson_performance_2010}.
+
+However, latency isn't the only factor complicating the goal of using EC2 for super computing tasks. Jackson et al. writes:
+
+\begin{quote}
+  ``Amazon offers no guarantees on proximity of nodes allocated together, and there is significant variability in latency between nodes."
+  \end{quote}
+
+Further complicating matters, Jackson et al. observes:  
+
+\begin{quote}
+  ``In addition to the variability in network latency, we also see variability in the underlying hardware the virtual machines are running on. By examining /proc/cpuinfo we are able to identify the actual CPU type of the un-virtualized hardware."
+\end{quote}
+
+
+Because when users request new servers on cloud computing networks they have no control over the placement of the server (relative to other servers) the latency of networks built in the cloud are unpredictable. This fact makes it difficult to build high performance computer clusters in the cloud. 
+
+The rest of this paper is organized as follows: In Section \ref{sec:feasibility}, we discuss the limitations naively attempting to find an optimal network. In Section \ref{sec:experimental} we detail the experiments we performed to evaluate the effectiveness of optimizing a test network with three different methods. We contrast a naive, greedy, and machine learning approach.  The result of all three approaches and discussion are presented in Section \ref{sec:results}. Finally, in Section \ref{sec:conclusion} we summarize the results of this study.      
+    
+\section{Creating Optimal Networks in the Cloud}
+
+There is one important difference between the interconnection networks used in the Cloud versus those used in super computers. Namely, while cloud networks use some form of Ethernet connectivity, high-performance super computers typically use high speed interconnects such as InfiniBand, which have far less latency than Ethernet. This difference can be between 12 and 100 times slower, with InfiniBand having latency in the 1$\mu s$ range. In Table \ref{table:latencies} we list some of the latencies of common interconnection technologies.
+
+\begin{table}[h]
+\centering
+\caption{Typical latency of various network connection technologies.}
+\begin{tabular}{| c | c |}
+\hline
+Technology  & Latency ($\mu s$) \\
+\hline
+\hline
+GigE & 29-100 \\
+\hline 
+10 GigE & 21.51 \\
+\hline 
+DDR InfiniBand  & 1.72 \\
+\hline 
+QDR InfiniBand & 1.67 \\
+\hline 
+\end{tabular}
+\label{table:latencies}
+\end{table}
+
+In our work, we propose the idea that deploying an application to a cloud network is essentially a runtime problem of the following formulation:
+
+\begin{quote}
+\textit{Given a target topology $T$ and a specification $S$, find the optimal subgraph $s$ of the network $N$, such that $s$ satisfies $S$ with respect to $T$}
+\end{quote}
+
+In this paper we consider the topology of a network ($T$) to be expressed by the connectivity between nodes. That is, in a computational cluster, which nodes must communicate with to which nodes. For simplicity, in this paper all communication requirements are assumed to be bi-directional. We consider the latency requirements of a network to be analogous to its specification ($S$), e.g., \textit{no link between two nodes may have more than 5 ms in latency}. In our formulation, we form topologies by finding a smaller, optimal network ($s$) within larger group of candidate nodes ($N$). In the following sections we will describe this problem and our approach to solving it. 

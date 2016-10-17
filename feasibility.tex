@@ -1,0 +1,32 @@
+\section{Feasibility of Approach} \label{sec:feasibility}
+
+In an attempt to gain an understanding of the limitations of Cloud networks, we performed an initial experiment analyzing the performance of randomly formed cloud networks.
+
+To determine this we initialized 100 EC2 micro instances and computed a fixed topology of sizes ranging from $N=2$ to $N=5$. The networks computed are the \textit{complete subgraph} of the network. Such a network is commonly known as a \textit{Clique} \cite{Sipser:2012ta}. In this topology, each pair of nodes is adjacent to one another. As mentioned in \ref{sec:introduction}, we assume for any pair of connected nodes that the communication is bidirectional.  
+
+A related problem is the \textit{maximum clique} problem  which aims to find the largest subset of vertices such that every two nodes are connected by an edge. The brute force search algorithms iteratively inspect all subsets to identify the maximum clique (largest clique by vertices) in the graph of that models the problem. Unfortunately, this problem is one of the NP-complete problems and it may require exponential time.
+
+To setup our initial experiment we considered all the possible networks with the Clique topology that could be formed of sizes ranging from $N=2$ to $N=5$ from a network with 100 nodes. Because many networks can be formed from 100 nodes, we express the latency in terms of the kernel density. The latency measure is calculated as the \textit{Score} of the clique. We calculate the score according to Equation \ref{eq:score}. The reason for expressing the latency for each network size in terms of the kernel density is two-fold: First, we wished to gain an understanding of what network characteristics were likely to arise from randomly formed networks of various sizes, i.e., if one were to create a random network of some size, what is the probability that the latency would be optimal? Secondly, since many networks can be formed at various clique sizes, e.g., $ \approx 7M$ for a clique size of 5, we expected to get a wide variety of latency measurements for the various networks. 
+
+
+The results of our experiment are given in Figure \ref{fig:clique}. For each clique, 10 measurements were made to the other $N-1$ nodes. Values reported in the kernel density estimation reflex the average of those latencies. 
+   
+\begin{equation}
+  Score = \frac{\sum_{n \in N}\frac{\sum_{l \in L_n}(l_1, \ldots , l_{10})}{|L_n|}}{Clique Size}
+  \label{eq:score}
+\end{equation}
+
+In the kernel density estimate in Figure \ref{fig:clique} we can see that as the clique size grows, the likely hood that a given randomly connected network will have a higher latency increases. This is of course an intuitive result since for any given sample of servers, some may drop packets or otherwise be far from the physical location of the other servers in the clique. The data gathered in this experiment confirms this suspicion. Furthermore, we can see that the increase we see as clique size grows is significant; the difference between $K=2$ and $K=3$ is greater than the difference between switching from InfiniBand to Gigabit Ethernet. 
+
+
+\subsection{Computing the Most Optimal Networks}
+
+For small networks ($K=5$ or less), computing the most optimal network via exhausting all possible networks is a trivial matter---all the networks can be enumerated and the most optimal one can be selected. However, in the real world such small networks are uncommon and it is not unusual for a company (such as Netflix) to have thousands of servers online at any moment. Computing optimal networks with such large networks is computationally daunting as even a network with 50 servers (assuming sample size of 100 test servers) would result in a search problem over $1 \times 10^{29}$. This is roughly half the number of atoms in the observable universe! It is then clear that we need more efficient methods for finding these optimal graphs.
+
+In this paper we propose finding more optimal subgraphs faster by employing machine learning approaches by examining characteristics about the machines beyond latency. For example, it's reasonable that two machines on the same subnet will exhibit lower latency than the machines on different subnets. We detail this approach in the next section of this paper. 
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "IPDPS2017"
+%%% End:

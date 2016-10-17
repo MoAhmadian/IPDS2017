@@ -1,0 +1,131 @@
+\section{Experimental Design} \label{sec:experimental}
+For our second experiment we decided to test the hypothesis that we can compute the most optimal network for networks of various sizes faster by using indicators culled from the Amazon EC2 instances.
+
+To do this we wrote a series of data mining scripts that were capable of performing the following tasks:
+
+\begin{enumerate}
+\item Collecting latency samples from each server in the test network.
+\item Collecting possibly useful machine data from a variety of sensors. We detail the attributes that we collected in Table \ref{table:dataset}.
+\end{enumerate}
+
+\begin{table}[h]
+  \caption{Attributes collected from each AWS instance}
+  \centering
+  \begin{tabular}{ | c | c | c |}
+    \hline
+    processor   & vendor\_id & cpu family \\
+    \hline
+    model & model name & stepping \\
+\hline
+microcode & cpu MHz & cache size \\
+\hline
+physical id & siblings & core id \\
+\hline
+cpu cores & bogomips & clflush size \\
+\hline
+cache\_alignment & address sizes & HWaddr \\
+\hline
+addr & Bcast & Mask \\
+\hline
+MTU & packets & errors \\
+\hline
+dropped & packets & errors \\
+\hline
+dropped & collisions & txqueuelen \\
+\hline
+load\_1 & load\_2 & load\_3 \\
+\hline
+\end{tabular}
+\label{table:dataset}
+\end{table}
+
+As in the previous experiment, we settled (for reasons of cost only) to initialize 100 AWS micro instances and collect the information detailed in Table \ref{table:dataset}.
+
+After collecting the data we ran experiments comparing the time to optimize networks of size $N=2$ to $N=50$ using two different approaches.
+
+\begin{itemize}
+\item \textbf{The Na\"{i}ve Approach} The na\"{i}ve approach involves enumerating all possible networks. The network with the lowest latency is maintained throughout execution.
+\item \textbf{The Greedy Approach} In the greedy approach, we build our network of size $N$ by starting with a random node and gradually building the network by selecting a new node with the lowest average latency. Because the starting node is picked randomly, we will run three trials of this algorithm with a different starting node in each trial. 
+\item \textbf{The Learned Approach} In the learned approach, we use the domain specific data in Table \ref{table:dataset} to predict the nodes that will have the lowest latencies. These nodes are then selected to form the complete network. For this we use a decision tree classifier to make predictions. We rely on a $K=2$ cross fold validation and report the averages. 
+\end{itemize}
+
+In all based on the data from Figure \ref{fig:clique}, we selected the target latency for the network to be $.5$ ms. This goal should be sufficiently hard for our algorithms but not impossible. 
+
+\begin{algorithm}
+  \caption{The Na\"{i}ve Approach}\label{algo:naive}
+  \begin{algorithmic}[1]
+    \Require{$Perms$ is non-empty}
+
+    \Procedure{Naive}{$Perms$}\Comment{The optimal network}
+    \State $best\gets head(Perms)$
+
+    \For{$n \in Perms$}
+    \State $latency\gets latency(n)$
+
+    \If{$latency < best$}
+    \State $best\gets n$
+    \EndIf
+
+    \If{$best <= .5$}
+    \State \textbf{return} $best$\Comment{a viable network}
+    \EndIf
+    
+
+    \EndFor
+    \State \textbf{return} $best$\Comment{the best network}
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{The Greedy Approach}\label{algo:greedy}
+  \begin{algorithmic}[1]
+    \Require{$Net$ is non-empty, $N > 1$}
+
+    \Procedure{Greedy}{$Net$,$N$}\Comment{The optimal network}
+    \State $best\gets \emptyset$
+    \While{$best.size < N$}
+    \State $candidates\gets \emptyset$
+    \For{$n \in Net$}
+    \State $adj\gets n.adjacent().sort()$ by latency
+    \For{$a \in adj$}
+
+    \If{$a \notin candidates \land a \notin best$}
+    \State $candidates\gets candidates \cup \{a\}$
+    \EndIf
+    
+    \EndFor
+    \EndFor
+
+    \State $topNode = nil$
+    \State $topScore = nil$
+    
+    \For{$c \in candidates$}
+    \State $score\gets computeScore(best \cup c)$
+
+    \If{$!topScore \lor score < topScore $}
+    \State $topScore \gets score$
+    \State $topNode \gets c$
+
+    \EndIf
+
+    \If{$topScore \leq .5$}
+    \State \textbf{break}
+    \EndIf
+
+    
+    \EndFor
+
+    \State $best\gets best \cup topNode$
+    
+    \EndWhile
+    \State \textbf{return} $best$\Comment{the best network}
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "IPDPS2017"
+%%% End:
